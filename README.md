@@ -142,3 +142,13 @@
 
 데이터 기반 의사결정을 위한 인사이트를 도출하는 과정을 경험했습니다.
 
+
+
+\## Tableau Dashboard
+
+\- https://public.tableau.com/app/profile/.44513793/viz/olist\_dashboard\_17639630074110/OlistDashboard
+
+
+
+!\[dashboard preview](images/olist\_dashboard.png)
+
