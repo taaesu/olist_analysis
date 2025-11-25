@@ -146,9 +146,7 @@
 
 \## Tableau Dashboard
 
-\- https://public.tableau.com/app/profile/.44513793/viz/olist\_dashboard\_17639630074110/OlistDashboard
+\- https://public.tableau.com/views/olist\_dashboard\_17639630074110/OlistDashboard?:language=ko-KR\&:sid=\&:redirect=auth\&:display\_count=n\&:origin=viz\_share\_link
 
-
-
-!\[dashboard preview](images/olist\_dashboard.png)
+!\[dashboard preview](./images/olist\_dashboard.png)
 
