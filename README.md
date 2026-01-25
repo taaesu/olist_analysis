@@ -1,150 +1,90 @@
-# Olist 전자상거래 데이터 탐색 분석 (EDA)
+# 첫 구매 경험이 고객 재구매 행동에 미치는 영향 분석 (Olist E-commerce Data)
+ 
+## 1. Project Overview
 
+Olist는 다양한 판매자가 입점한 브라질 기반 전자상거래 플랫폼이다.  
+플랫폼형 커머스의 특성상 신규 고객 유입뿐 아니라 기존 고객의 재구매는 매출 성장과 서비스 안정성에 중요한 역할을 한다.
+특히 첫 구매 경험은 고객의 향후 재구매 행동에 큰 영향을 미칠 수 있다. 
 
+본 프로젝트는 고객의 첫 구매 경험이 이후 재구매 행동에 어떤 영향을 미치는지 데이터를 통해 검증하는 것을 목표로 한다.
 
-\## 프로젝트 개요
+## 2. Analysis Questions
 
-브라질 전자상거래 플랫폼 Olist의 공개 데이터셋을 전반적으로 탐색하여 주요 인사이트를 발견하는 것을 목표로 데이터베이스를 구축하고, 주문·제품·리뷰 등 다양한 테이블을 통합적으로 분석하였습니다.
+1. 첫 주문 배송이 지연된 고객은 재구매를 덜 하는가?
+2. 첫 주문 리뷰 점수에 따라 재구매까지 걸린 시간에 차이가 있는가?
 
-실제 데이터 분석가의 업무 프로세스를 가정하여, SQL과 Python(pandas, seaborn, scipy 등)을 이용한 EDA(탐색적 데이터 분석) → 가설 설정 및 검정 → 인사이트 도출의 흐름으로 프로젝트를 설계했습니다.
+## 3. Dataset
 
+- Source: Kaggle – Brazilian E-Commerce Public Dataset by Olist  
+- Period: 2016 ~ 2018  
+- Size: 약 100,000건 주문, 9개 테이블
 
+본 분석에서는 다음 주요 테이블을 활용하였다.
 
-\## 데이터셋
+- orders
+- customers
+- order_reviews
 
-출처: Kaggle – Brazilian E-Commerce Public Dataset by Olist
+## 4. Key Definitions
 
-데이터 기간 : 2016년 ~ 2018년
+- 고객 단위: 
+   - customer_unique_id
 
-총 약 100,000건의 주문 데이터와 9개의 테이블로 구성되어 있습니다.
+- 첫 주문: 
+   - 고객별 최초 order_purchase_timestamp
 
+- 재구매:
+   - 동일 고객의 주문 수 ≥ 2
+   - 첫 주문 이후 60일 이내 추가 주문 발생
 
+- 배송 지연:
+   - order_delivered_customer_date > order_estimated_delivery_date
 
-주요 테이블:
+- 분석 대상:
+   - order_status = 'delivered'
+   - 실제 배송일 정보가 없는 8건 제외
 
-* orders: 주문 ID, 구매/승인/배송 관련 날짜
-* order\_items: 주문별 상품, 배송비, 판매자 정보
-* customers: 고객 ID, 도시(city), 주(state)
-* products: 상품 ID, 카테고리
-* sellers: 판매자 정보
-* order\_payments: 결제 금액, 결제 횟수
-* order\_reviews: 리뷰 점수, 리뷰 텍스트
-* geolocation: 위도/경도, 도시, 주(state) 정보
-* product\_category\_name\_translation: 상품 카테고리명(포르투갈어 → 영어 번역 매핑)
+- 리뷰 점수:
+   - 주문별 리뷰가 여러 개인 경우 평균값 사용
+   - 리뷰가 없는 주문은 NaN 처리
 
+## 5. Analysis Process
 
+1. CSV 데이터를 SQLite 데이터베이스로 통합
+2. SQL 기반 고객 단위 분석 테이블 생성
+3. Python(pandas)을 활용한 지표 계산
+4. 배송 경험 및 리뷰 점수에 따른 재구매 행동 비교
+5. 결과 해석 및 비즈니스 시사점 도출
+ 
+## 6. Key Findings
 
-\## 분석 과정 요약
+- 첫 주문 배송이 지연된 고객의 60일 이내 재구매율은 정상 배송 고객 대비 약 0.16% 낮게 나타났으며, 이는 상대적으로 약 17% 낮은 수준이다.
+-  다만 전체 재구매율이 매우 낮아 배송 개선만으로 재구매율을 크게 개선하기에는 한계가 있을 가능성이 있다.
 
-1\. SQLite 데이터베이스 생성
+- 첫 주문 리뷰 점수가 낮은 고객군에서 재구매까지 걸린 시간이 더 짧게 나타났다.
+- 이는 첫 주문 경험의 만족도보다는 다른 요인이 재구매 시점에 더 큰 영향을 미칠 가능성이 있다.
 
-   - 9개 CSV 파일을 SQLite로 통합 ('olist.db')
+## 7. Deliverables
 
-   - 각 테이블 간 관계(ERD) 확인 및 SQL 기반 탐색
+- 메인 분석 노트북:
+   - 02_first_purchase_repurchase.ipynb
 
-2\. 데이터 정제 및 타입 변환
+- 보조 분석 (EDA)  
+   - 01_eda_exploration.ipynb
 
-   - 날짜 컬럼을 'datetime' 변환
+## 8. Tech Stack
 
-   - 배송상태와 불일치하는 오류 데이터 제거
+- SQL (SQLite)
+- Python (pandas, matplotlib, seaborn, scipy)
+- Jupyter Notebook
 
-   - IQR 기반 이상치(25일 초과 배송 지연) 분리
+## Additional Analysis (Exploratory)
 
-3\. 탐색적 데이터 분석 (EDA)
+본 프로젝트 이전 단계에서 Olist 데이터 구조 이해를 위해
+주문, 배송, 매출, 리뷰 전반에 대한 탐색적 분석을 수행하였다.
 
-   - 주문, 배송, 매출, 리뷰, 지역 등 다방면 분석
+- 배송 지연 분포 및 지역·카테고리별 특성
+- 카테고리별 매출 편중 현상
+- 리뷰 점수 분포 및 주요 불만 키워드 분석
 
-4\. 가설 검정
-
-   - t-test를 활용하여 배송 예측 정확도 검증
-
-5\. 시각화
-
-   - 'matplotlib' / 'seaborn' / 'plotly' 활용
-
-6\. 인사이트 도출
-
-   - 각 분석 결과에 기반한 비지니스 시사점 정리
-
-
-
-\## 주요 분석 내용 및 인사이트
-
-
-
-   ### 배송 분석
-
-   - 가설(H₀) : 실제 배송일과 예상 배송일의 차이는 없다 → 배송 예측 시스템은 정확하다.
-
-   - 대립가설(H₁): 두 값에는 차이가 존재한다 → 배송 예측 시스템에 오차가 있다.
-
-   - 결과 :  p-value < 0.05 → 귀무가설 기각
-
-   - 해석 : 배송 예측 시스템에 통계적으로 유의한 오차 존재
-
-   - 평균 배송 소요: 약 12일
-
-   - IQR 기준(Q3+1.5×IQR)으로 25일 초과 배송을 지연으로 분류
-
-   - 배송 지연은 특정 카테고리(bed\_bath\_table, health\_beauty 등)와 특정 지역(RJ, SP, BA 등)에서 집중적으로 발생
-
-   Business insight :
-
-    → 배송 지연이 집중된 특정 제품군 및 지역을 우선적으로 관리하면 전체 지연율을 빠르게 개선할 수 있음
-
-
-
-   ### 제품·매출 분석
-
-   - 제품 카테고리별 매출 상위 10개 비중 : 전체 매출의 63%를 차지
-
-   - 하위 10개 카테고리는 0.09%에 불과함 → 매출 편중 심화
-
-   - 제품 가격과 배송 시간 간의 유의한 상관관계는 없음
-
-   - 2017년 11월 24일 일매출 급등 → 블랙프라이데이로 인한 거래량 상승 효과
-
-   Business insight :
-
-   → 매출 비중이 낮은 카테고리는 상품 경쟁력 부족 또는 노출 부족 가능성이 있어, 프로모션·가격 조정등의 개선 전략이 필요함
-
-
-
-   ### 리뷰 분석
-
-   - 리뷰 점수는 4~5점 중심으로 분포
-
-   -  1~2점대 비중은 약 15%
-
-   - 저평가 리뷰의 주요 키워드: “늦게 왔다”, “안 왔다”, “문제 있다”
-
-   - 배송 지연 및 품질 관련 이슈가 낮은 평점의 핵심 요인
-
-   Business insight :
-
-   → 배송 및 물류 개선은 리뷰 점수 상승, 고객 불만 감소, 재구매율 증가 등 고객 경험 전반에 긍정적 효과를 가져올 것으로 기대됨
-
-
-
-\## 사용 기술
-
-\- SQL: 데이터 추출 및 가공
-
-\- Python: pandas, seaborn, matplotlib, plotly, scipy
-
-\- Jupyter Notebook / SQLite
-
-
-
-\## 결론
-
-본 분석을 통해 배송 지연의 원인(제품군·지역), 매출 구조의 편중, 리뷰 텍스트 기반 고객 불만 요인을 도출하였고,
-
-데이터 기반 의사결정을 위한 인사이트를 도출하는 과정을 경험했습니다.
-
-
-
-\## Tableau Dashboard
-
-\- https://public.tableau.com/views/olist\_dashboard\_17639630074110/OlistDashboard?:language=ko-KR\&:sid=\&:redirect=auth\&:display\_count=n\&:origin=viz\_share\_link
-
+해당 분석은 메인 프로젝트의 기초 자료로 활용되었다.
