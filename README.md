@@ -1,6 +1,6 @@
 ## 첫 구매 경험이 재구매 행동에 미치는 영향 분석
 
-&#x20; 
+&#x20;
 
 ### 핵심 결과
 
@@ -8,13 +8,13 @@
 
 \- 낮은 리뷰 점수를 받은 고객군에서 오히려 더 빠른 재구매가 나타나며, 리뷰 점수만으로 재구매 행동을 설명하기 어려움을 확인
 
-&#x20; 
+&#x20;
 
 ### 인사이트
 
-초기 구매 경험은 재구매 행동과 일정 부분 관련이 있으나, 단일 지표만으로 재구매를 설명하기에는 한계가 있음
+\- 초기 구매 경험은 재구매 행동과 일정 부분 관련이 있으나, 단일 지표만으로 재구매를 설명하기에는 한계가 있음
 
-&#x20; 
+&#x20;
 
 ### 분석 방법
 
@@ -28,7 +28,7 @@
 
 \- 분석 결과 해석 및 인사이트 도출
 
-&#x20; 
+&#x20;
 
 ### 분석 질문
 
@@ -36,9 +36,9 @@
 
 \- 첫 주문 리뷰 점수가 재구매 행동에 영향을 미치는가?
 
-&#x20; 
+&#x20;
 
-### 데이터
+### 데이터셋
 
 \- Olist E-commerce Dataset (Kaggle)
 
@@ -46,7 +46,7 @@
 
 \- orders, customers, order\_reviews 3개의 테이블 사용
 
-&#x20; 
+&#x20;
 
 ### Deliverables
 
@@ -54,9 +54,9 @@
 
 \- EDA: 01\_eda\_exploration.ipynb
 
-&#x20; 
+&#x20;
 
 ### Tech Stack
 
-SQL (SQLite) | Python (pandas, matplotlib, seaborn) | Jupyter Notebook
+\- SQL (SQLite) | Python (pandas, matplotlib, seaborn) | Jupyter Notebook
 
